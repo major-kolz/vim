@@ -47,13 +47,6 @@ set lazyredraw						" Не перерисовывать экран без нео
 let mapleader=';'					" Лидер - клавиша, с которой начинаются пользовательские комбинации символов
 au FocusLost * :wa				" Авто-сохранение при потере фокуса
 
-"=== Включение\выключение относительной нумерации (удобно при замене на фрагменте текста)
-nmap <leader>n :set rnu<CR>
-nmap <leader>N :set nornu<CR>
-"=== Подсветка непечатных символов
-nmap <leader>l :set list<CR>
-nmap <leader>L :set nolist<CR>
-
 "=== Клавиатура
 set keymap=prog-dvorak			" Правленый dvorak-jcuken 
 set iminsert=0                " Раскладка по-умолчанию: английская
@@ -68,6 +61,14 @@ imap <C-s> <Esc>:w<CR>a
 "=== Выход
 nmap <C-q> :q<CR>
 imap <C-q> <Esc>:q<CR>
+"=== Включение\выключение относительной нумерации (удобно при замене на фрагменте текста)
+nmap <leader>n :set rnu<CR>
+nmap <leader>N :set nornu<CR>
+"=== Подсветка непечатных символов
+nmap <leader>l :set list<CR>
+nmap <leader>L :set nolist<CR>
+"=== Для разворачивания {} с курсором посередине
+imap <C-Cr> <Cr><Esc>O<Tab>
 
 "=== Форматирование текста
 set smarttab						" Табы в начале строки
