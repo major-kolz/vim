@@ -3,7 +3,6 @@ set mapleader = ";"
 " Непечатные символы
 set list                    
 set listchars=tab:▸\ ,eol:¬ 
-nmap <leader>l :set list!<CR>
 
 " Форматирование
 set tabstop=4
