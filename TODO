@@ -1,0 +1,13 @@
+Scala:
+- Нужны подсказки (может, это omni-complete?)
+- Подсветка неправильного определения типов: int x вместо x: int
+- Snippets для разработки под Android
+- Folding for imports
+
+XML:
+- Snippets для разработки под Andrdoid
+
+Template's Build Code plugin:
+- ...
+
+Project-file: открывать/закрывать файлы сеансов, с возможностью давать им имена и т.д.
