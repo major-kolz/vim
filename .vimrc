@@ -2,7 +2,7 @@ set nocompatible
 syntax on
 filetype off                  " vundle required
 
-"=== Vundle 
+"{ Vundle 
 set rtp+=~/.vim/bundle/Vundle.vim/	"setup set the runtime path to include Vundle and initialize
 call vundle#begin()
 
@@ -28,7 +28,7 @@ Plugin 'Raimondi/delimitMate'
 " :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
 
 call vundle#end()
-"=== Vundle end
+"} Vundle end
 
 "=== Общее
 filetype plugin indent on
