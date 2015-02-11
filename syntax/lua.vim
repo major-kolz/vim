@@ -96,24 +96,32 @@ if lua_version > 4
   syn keyword luaConstant true false
 endif
 
+" INSTEAD text's control words
+syn match INSTEADStringControl "\[cut\]" contained
+syn match INSTEADStringControl "\[upd\]" contained
+syn match INSTEADStringControl "{[a-zA-Zа-яА-Я0-9 |^]*}" contained
+" INSTEAD text's special symbols
+syn match INSTEADSpecial "\^" contained
+
+
 " Strings
 if lua_version < 5
   syn match  luaSpecial contained "\\[\\abfnrtv\'\"]\|\\[[:digit:]]\{,3}"
 elseif lua_version == 5
   if lua_subversion == 0
     syn match  luaSpecial contained #\\[\\abfnrtv'"[\]]\|\\[[:digit:]]\{,3}#
-    syn region luaString2 matchgroup=luaString start=+\[\[+ end=+\]\]+ contains=luaString2,@Spell
+    syn region luaString2 matchgroup=luaString start=+\[\[+ end=+\]\]+ contains=luaString2,INSTEADStringControl,INSTEADSpecial,@Spell
   else
     if lua_subversion == 1
       syn match  luaSpecial contained #\\[\\abfnrtv'"]\|\\[[:digit:]]\{,3}#
     else " Lua 5.2
       syn match  luaSpecial contained #\\[\\abfnrtvz'"]\|\\x[[:xdigit:]]\{2}\|\\[[:digit:]]\{,3}#
     endif
-    syn region luaString2 matchgroup=luaString start="\[\z(=*\)\[" end="\]\z1\]" contains=@Spell
+    syn region luaString2 matchgroup=luaString start="\[\z(=*\)\[" end="\]\z1\]" contains=INSTEADStringControl,INSTEADSpecial,@Spell
   endif
 endif
-syn region luaString  start=+'+ end=+'+ skip=+\\\\\|\\'+ contains=luaSpecial,@Spell
-syn region luaString  start=+"+ end=+"+ skip=+\\\\\|\\"+ contains=luaSpecial,@Spell
+syn region luaString  start=+'+ end=+'+ skip=+\\\\\|\\'+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial,@Spell
+syn region luaString  start=+"+ end=+"+ skip=+\\\\\|\\"+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial,@Spell
 
 " integer number
 syn match luaNumber "\<\d\+\>"
@@ -343,6 +351,7 @@ if version >= 508 || !exists("did_lua_syntax_inits")
   HiLink luaNumber		Number
   HiLink luaOperator		Operator
   HiLink luaIn			Operator
+  HiLink INSTEADStringControl   Operator
   HiLink luaConstant		Constant
   HiLink luaCond		Conditional
   HiLink luaElse		Conditional
@@ -354,6 +363,7 @@ if version >= 508 || !exists("did_lua_syntax_inits")
   HiLink luaParenError		Error
   HiLink luaBraceError		Error
   HiLink luaSpecial		SpecialChar
+  HiLink INSTEADSpecial         SpecialChar
   HiLink luaFunc		Identifier
   HiLink luaLabel		Label
 
@@ -364,4 +374,5 @@ let b:current_syntax = "lua"
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
+
 " vim: et ts=8 sw=2
