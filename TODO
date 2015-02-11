@@ -11,3 +11,5 @@ Template's Build Code plugin:
 - ...
 
 Project-file: открывать/закрывать файлы сеансов, с возможностью давать им имена и т.д.
+
+au cfamily, txt и проч.
