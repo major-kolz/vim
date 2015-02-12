@@ -11,7 +11,6 @@ Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
 Plugin 'honza/vim-snippets'
-Plugin 'scrooloose/nerdtree'
 Plugin 'vim-scripts/DoxygenToolkit.vim'
 Plugin 'vim-scripts/DoxyGen-Syntax'
 Plugin 'sjl/gundo.vim'
@@ -21,12 +20,14 @@ Plugin 'file:///home/major/.vim/excelenter-vim-instead'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'tpope/vim-surround'
 Plugin 'Raimondi/delimitMate'
+Plugin 'altercation/vim-colors-solarized'
 
 "=== Brief help
-" :PluginList          - list configured plugins
-" :PluginInstall(!)    - install (update) plugins
-" :PluginSearch(!) foo - search (or refresh cache first) for foo
-" :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
+" :PluginList				- list configured plugins
+" :PluginInstall(!)		- install plugins
+" :PluginUpdate			- update plugins
+" :PluginSearch(!) foo	- search (or refresh cache first) for foo
+" :PluginClean(!)			- confirm (or auto-approve) removal of unused plugins
 
 call vundle#end()
 "} Vundle end
@@ -77,11 +78,11 @@ set smarttab						" Табы в начале строки
 set ai
 set tabstop=3
 set shiftwidth=3
-au FileType Makefile set noexpandtab
 set autoindent						" Копирует отступы с текущей строки при добавлении новой 
 set wrap								" Включаем перенос строк
 set linebreak							" Перенос строк по словам, а не по буквам
 set showbreak=▸\ \ 					" Помечать перенос вот таким треугольником и двумя пробелами
+au FileType Makefile set noexpandtab
 
 
 "=== Окно
@@ -111,7 +112,7 @@ autocmd VimEnter * nested if argc() == 0 && filereadable($HOME . "/.vim/Session.
     \ execute "source " . $HOME . "/.vim/Session.vim"
 
 au BufNewFile,BufRead *.doxygen setfiletype doxygen
-au BufNewFile,BufRead *.book,*.txt setfiletype txt
+au BufNewFile,BufRead *.book setfiletype text " text - predefined category
 au Filetype c,cc,cpp,h,hpp runtime! ftplugin/cfamily.vim
 
 " Дополнительный, специфические для разных типов файлов настройки лежат в ~/.vim/ftplugin

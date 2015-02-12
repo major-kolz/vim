@@ -19,5 +19,3 @@ else
 	map <f5>      :w<cr>:make %:r<cr>:cw<cr>
   imap <f5> <esc>:w<cr>:make %:r<cr>:cw<cr>
 endif
-
-echo "yes, baby"

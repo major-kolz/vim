@@ -10,5 +10,6 @@ ln -s "$current/ftplugin" -t "$vdir"
 ln -s "$current/keymap" -t "$vdir"
 ln -s "$current/spell" -t "$vdir"
 ln -s "$current/syntax" -t "$vdir"
+ln -s "$current/snippets" -t "$vdir"
 
 notyfi-send "--expire-time=3000" "Vim configuration" "Done"
