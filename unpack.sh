@@ -11,5 +11,6 @@ ln -s "$current/keymap" -t "$vdir"
 ln -s "$current/spell" -t "$vdir"
 ln -s "$current/syntax" -t "$vdir"
 ln -s "$current/snippets" -t "$vdir"
+ln -s "$current/colors" -t "$vdir"
 
 notyfi-send "--expire-time=3000" "Vim configuration" "Done"

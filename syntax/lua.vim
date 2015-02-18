@@ -102,7 +102,7 @@ endif
   " INSTEAD text's control words
 syn match INSTEADStringControl "\[cut\]" contained
 syn match INSTEADStringControl "\[upd\]" contained
-syn match INSTEADStringControl "{[a-zA-Zа-яА-Я0-9 |^-]*}" contained
+syn match INSTEADStringControl "{[a-zA-Zа-яА-Я0-9 |^-_"]*}" contained
   " INSTEAD text's special symbols
 syn match INSTEADSpecial "\^" contained
 
@@ -344,7 +344,7 @@ if version >= 508 || !exists("did_lua_syntax_inits")
     command -nargs=+ HiLink hi def link <args>
   endif
 
-  HiLink luaSingleQuoteString   Normal
+  HiLink luaSingleQuoteString   Character
 "------------------------------------------
   HiLink luaString              String
   HiLink luaMultiLineString     String
@@ -368,8 +368,8 @@ if version >= 508 || !exists("did_lua_syntax_inits")
   HiLink luaTable		Structure
 "------------------------------------------
   HiLink INSTEADSpecial         SpecialChar
+  HiLink luaSpecial             SpecialChar
 "------------------------------------------
-  HiLink luaOperator            Operator
   HiLink INSTEADStringControl   Operator
 "------------------------------------------
   HiLink luaError		Error
@@ -405,6 +405,13 @@ if version >= 508 || !exists("did_lua_syntax_inits")
 ""  HiLink luaFunc		Identifier
 ""  HiLink luaLabel		Label
 
+  " Не использованные: 
+  " Delimiter, Special (не вижу чем эти двое отличаются; SpecialChar похоже)
+  " Type, TypeDef 
+  " Exception, Boolean (как Statement выглядит)
+  " Character (тот же String)
+  " PreProc, Include
+  "
   delcommand HiLink
 endif
 
