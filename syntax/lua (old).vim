@@ -33,20 +33,18 @@ syn case match
 syn sync minlines=100
 
 " Comments
-syn keyword luaTodo     contained TODO FIXME XXX
-syn match   luaComment  "--.*$" contains=luaTodo,@Spell,INSTEADTags
+syn keyword luaTodo            contained TODO FIXME XXX
+syn match   luaComment         "--.*$" contains=luaTodo,@Spell
 if lua_version == 5 && lua_subversion == 0
-  syn region luaComment matchgroup=luaComment start="--\[\[" end="\]\]" contains=luaTodo,luaInnerComment,@Spell
-  syn region luaInnerComment contained transparent start="\[\[" end="\]\]"
+  syn region luaComment        matchgroup=luaComment start="--\[\[" end="\]\]" contains=luaTodo,luaInnerComment,@Spell
+  syn region luaInnerComment   contained transparent start="\[\[" end="\]\]"
 elseif lua_version > 5 || (lua_version == 5 && lua_subversion >= 1)
   " Comments in Lua 5.1: --[[ ... ]], [=[ ... ]=], [===[ ... ]===], etc.
-  syn region luaComment matchgroup=luaComment start="--\[\z(=*\)\[" end="\]\z1\]" contains=luaTodo,INSTEADTags,@Spell
+  syn region luaComment        matchgroup=luaComment start="--\[\z(=*\)\[" end="\]\z1\]" contains=luaTodo,@Spell
 endif
 
 " First line may start with #!
 syn match luaComment "\%^#!.*"
-" INSTEAD's header tags in comments
-syn region INSTEADTags contained matchgroup=luaComment start="\$\%(Name\|Author\|Version\):" end="\$" contains=@Spell
 
 " catch errors caused by wrong parenthesis and wrong curly brackets or
 " keywords placed outside their respective blocks
@@ -58,7 +56,7 @@ syn match  luaBraceError "}"
 syn match  luaError "\<\%(end\|else\|elseif\|then\|until\|in\)\>"
 
 " function ... end
-syn region luaFunctionBlock transparent matchgroup=luaFunction start="\<function\>" end="\<end\>" fold contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn
+syn region luaFunctionBlock transparent matchgroup=luaFunction start="\<function\>" end="\<end\>" contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn
 
 " if ... then
 syn region luaIfThen transparent matchgroup=luaCond start="\<if\>" end="\<then\>"me=e-4           contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaIn nextgroup=luaThenEnd skipwhite skipempty
@@ -98,31 +96,32 @@ if lua_version > 4
   syn keyword luaConstant true false
 endif
 
-" Strings
-  " INSTEAD text's control words
+" INSTEAD text's control words
 syn match INSTEADStringControl "\[cut\]" contained
 syn match INSTEADStringControl "\[upd\]" contained
-syn match INSTEADStringControl "{[a-zA-Zа-яА-Я0-9 |^-]*}" contained
-  " INSTEAD text's special symbols
+syn match INSTEADStringControl "{[a-zA-Zа-яА-Я0-9 |^]*}" contained
+" INSTEAD text's special symbols
 syn match INSTEADSpecial "\^" contained
 
+
+" Strings
 if lua_version < 5
   syn match  luaSpecial contained "\\[\\abfnrtv\'\"]\|\\[[:digit:]]\{,3}"
 elseif lua_version == 5
   if lua_subversion == 0
     syn match  luaSpecial contained #\\[\\abfnrtv'"[\]]\|\\[[:digit:]]\{,3}#
-    syn region luaMultiLineString matchgroup=Normal start=+\[\[+ end=+\]\]+ contains=luaMultiLineString,INSTEADStringControl,INSTEADSpecial,@Spell
+    syn region luaLiteralString matchgroup=luaString start=+\[\[+ end=+\]\]+ contains=luaLiteralString,INSTEADStringControl,INSTEADSpecial,@Spell
   else
     if lua_subversion == 1
       syn match  luaSpecial contained #\\[\\abfnrtv'"]\|\\[[:digit:]]\{,3}#
     else " Lua 5.2
       syn match  luaSpecial contained #\\[\\abfnrtvz'"]\|\\x[[:xdigit:]]\{2}\|\\[[:digit:]]\{,3}#
     endif
-    syn region luaMultiLineString matchgroup=Normal start="\[\z(=*\)\[" end="\]\z1\]" contains=INSTEADStringControl,INSTEADSpecial,@Spell
+    syn region luaLiteralString matchgroup=luaString start="\[\z(=*\)\[" end="\]\z1\]" contains=INSTEADStringControl,INSTEADSpecial,@Spell
   endif
 endif
-syn region luaString matchgroup=Normal start=+"+ end=+"+ skip=+\\\\\|\\"+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial,@Spell
-syn region luaSingleQuoteString start=+'+ end=+'+ skip=+\\\\\|\\'+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial
+syn region luaString  start=+'+ end=+'+ skip=+\\\\\|\\'+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial,@Spell
+"syn region luaString  start=+"+ end=+"+ skip=+\\\\\|\\"+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial,@Spell
 
 " integer number
 syn match luaNumber "\<\d\+\>"
@@ -344,35 +343,8 @@ if version >= 508 || !exists("did_lua_syntax_inits")
     command -nargs=+ HiLink hi def link <args>
   endif
 
-  HiLink luaSingleQuoteString   Normal
-"------------------------------------------
   HiLink luaString              String
-  HiLink luaMultiLineString     String
-  HiLink INSTEADTags            String
-"------------------------------------------
-  HiLink luaNumber              Constant
-  HiLink luaConstant            Constant
-"------------------------------------------
-  HiLink luaFunction		Function
-"------------------------------------------
-  HiLink luaStatement           Statement
-  HiLink luaCond                Statement
-  HiLink luaElse                Statement
-  HiLink luaOperator            Statement
-  HiLink luaOperator            Statement
-"------------------------------------------
-  HiLink luaTable		Structure
-"------------------------------------------
-  HiLink INSTEADSpecial         SpecialChar
-"------------------------------------------
-  HiLink luaOperator            Operator
-  HiLink INSTEADStringControl   Operator
-"------------------------------------------
-  HiLink luaError		Error
-  HiLink luaParenError		Error
-  HiLink luaBraceError          Error
-"------------------------------------------
-  HiLink luaComment             Comment
+  HiLink luaLiteralString       String
 
 "  HiLink luaStatement		Statement
 "  HiLink luaRepeat		Repeat
@@ -398,13 +370,6 @@ if version >= 508 || !exists("did_lua_syntax_inits")
 ""  HiLink luaFunc		Identifier
 ""  HiLink luaLabel		Label
 
-  " Не использованные: 
-  " Delimiter, Special (не вижу чем эти двое отличаются; SpecialChar похоже)
-  " Type, TypeDef 
-  " Exception, Boolean (как Statement выглядит)
-  " Character (тот же String)
-  " PreProc, Include
-  "
   delcommand HiLink
 endif
 
