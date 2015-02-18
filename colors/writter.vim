@@ -12,6 +12,7 @@ endif
 let colors_name = "writter"
 
 hi Normal      guifg=#47b8b8
+hi Character	guifg=#47b8b8
 hi String      guifg=#000000
 hi Constant    guifg=#00ffff 
 hi Function    guifg=#cfe7f5 gui=bold
