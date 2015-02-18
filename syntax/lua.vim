@@ -367,6 +367,13 @@ if version >= 508 || !exists("did_lua_syntax_inits")
   HiLink luaFunc		Identifier
   HiLink luaLabel		Label
 
+  " Не использованные: 
+  " Delimiter, Special (не вижу чем эти двое отличаются; SpecialChar похоже)
+  " Type, TypeDef 
+  " Exception, Boolean (как Statement выглядит)
+  " Character (тот же String)
+  " PreProc, Include
+  "
   delcommand HiLink
 endif
 
