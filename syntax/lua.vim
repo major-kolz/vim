@@ -350,16 +350,20 @@ if version >= 508 || !exists("did_lua_syntax_inits")
   HiLink luaMultiLineString     String
   HiLink INSTEADTags            String
 "------------------------------------------
-  HiLink luaNumber              Constant
-  HiLink luaConstant            Constant
-"------------------------------------------
   HiLink luaFunction		Function
+"------------------------------------------
+  HiLink luaNumber              Number
+"------------------------------------------
+  HiLink luaConstant            Constant
 "------------------------------------------
   HiLink luaStatement           Statement
   HiLink luaCond                Statement
   HiLink luaElse                Statement
   HiLink luaOperator            Statement
   HiLink luaOperator            Statement
+"------------------------------------------
+  HiLink luaRepeat		Repeat
+  HiLink luaFor			Repeat
 "------------------------------------------
   HiLink luaTable		Structure
 "------------------------------------------
@@ -373,6 +377,9 @@ if version >= 508 || !exists("did_lua_syntax_inits")
   HiLink luaBraceError          Error
 "------------------------------------------
   HiLink luaComment             Comment
+"------------------------------------------
+  HiLink luaFunc		Identifier
+  HiLink luaIn                  Identifier
 
 "  HiLink luaStatement		Statement
 "  HiLink luaRepeat		Repeat
