@@ -33,18 +33,20 @@ syn case match
 syn sync minlines=100
 
 " Comments
-syn keyword luaTodo            contained TODO FIXME XXX
-syn match   luaComment         "--.*$" contains=luaTodo,@Spell
+syn keyword luaTodo     contained TODO FIXME XXX
+syn match   luaComment  "--.*$" contains=luaTodo,@Spell,INSTEADTags
 if lua_version == 5 && lua_subversion == 0
-  syn region luaComment        matchgroup=luaComment start="--\[\[" end="\]\]" contains=luaTodo,luaInnerComment,@Spell
-  syn region luaInnerComment   contained transparent start="\[\[" end="\]\]"
+  syn region luaComment matchgroup=luaComment start="--\[\[" end="\]\]" contains=luaTodo,luaInnerComment,@Spell
+  syn region luaInnerComment contained transparent start="\[\[" end="\]\]"
 elseif lua_version > 5 || (lua_version == 5 && lua_subversion >= 1)
   " Comments in Lua 5.1: --[[ ... ]], [=[ ... ]=], [===[ ... ]===], etc.
-  syn region luaComment        matchgroup=luaComment start="--\[\z(=*\)\[" end="\]\z1\]" contains=luaTodo,@Spell
+  syn region luaComment matchgroup=luaComment start="--\[\z(=*\)\[" end="\]\z1\]" contains=luaTodo,INSTEADTags,@Spell
 endif
 
 " First line may start with #!
 syn match luaComment "\%^#!.*"
+" INSTEAD's header tags in comments
+syn region INSTEADTags contained matchgroup=luaComment start="\$\%(Name\|Author\|Version\):" end="\$" contains=@Spell
 
 " catch errors caused by wrong parenthesis and wrong curly brackets or
 " keywords placed outside their respective blocks
@@ -56,7 +58,7 @@ syn match  luaBraceError "}"
 syn match  luaError "\<\%(end\|else\|elseif\|then\|until\|in\)\>"
 
 " function ... end
-syn region luaFunctionBlock transparent matchgroup=luaFunction start="\<function\>" end="\<end\>" contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn
+syn region luaFunctionBlock transparent matchgroup=luaFunction start="\<function\>" end="\<end\>" fold contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn
 
 " if ... then
 syn region luaIfThen transparent matchgroup=luaCond start="\<if\>" end="\<then\>"me=e-4           contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaIn nextgroup=luaThenEnd skipwhite skipempty
@@ -96,32 +98,31 @@ if lua_version > 4
   syn keyword luaConstant true false
 endif
 
-" INSTEAD text's control words
+" Strings
+  " INSTEAD text's control words
 syn match INSTEADStringControl "\[cut\]" contained
 syn match INSTEADStringControl "\[upd\]" contained
-syn match INSTEADStringControl "{[a-zA-Zа-яА-Я0-9 |^]*}" contained
-" INSTEAD text's special symbols
+syn match INSTEADStringControl "{[a-zA-Zа-яА-Я0-9 |^-]*}" contained
+  " INSTEAD text's special symbols
 syn match INSTEADSpecial "\^" contained
 
-
-" Strings
 if lua_version < 5
   syn match  luaSpecial contained "\\[\\abfnrtv\'\"]\|\\[[:digit:]]\{,3}"
 elseif lua_version == 5
   if lua_subversion == 0
     syn match  luaSpecial contained #\\[\\abfnrtv'"[\]]\|\\[[:digit:]]\{,3}#
-    syn region luaString2 matchgroup=luaString start=+\[\[+ end=+\]\]+ contains=luaString2,INSTEADStringControl,INSTEADSpecial,@Spell
+    syn region luaMultiLineString matchgroup=Normal start=+\[\[+ end=+\]\]+ contains=luaMultiLineString,INSTEADStringControl,INSTEADSpecial,@Spell
   else
     if lua_subversion == 1
       syn match  luaSpecial contained #\\[\\abfnrtv'"]\|\\[[:digit:]]\{,3}#
     else " Lua 5.2
       syn match  luaSpecial contained #\\[\\abfnrtvz'"]\|\\x[[:xdigit:]]\{2}\|\\[[:digit:]]\{,3}#
     endif
-    syn region luaString2 matchgroup=luaString start="\[\z(=*\)\[" end="\]\z1\]" contains=INSTEADStringControl,INSTEADSpecial,@Spell
+    syn region luaMultiLineString matchgroup=Normal start="\[\z(=*\)\[" end="\]\z1\]" contains=INSTEADStringControl,INSTEADSpecial,@Spell
   endif
 endif
-syn region luaString  start=+'+ end=+'+ skip=+\\\\\|\\'+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial,@Spell
-syn region luaString  start=+"+ end=+"+ skip=+\\\\\|\\"+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial,@Spell
+syn region luaString matchgroup=Normal start=+"+ end=+"+ skip=+\\\\\|\\"+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial,@Spell
+syn region luaSingleQuoteString start=+'+ end=+'+ skip=+\\\\\|\\'+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial
 
 " integer number
 syn match luaNumber "\<\d\+\>"
@@ -343,29 +344,59 @@ if version >= 508 || !exists("did_lua_syntax_inits")
     command -nargs=+ HiLink hi def link <args>
   endif
 
-  HiLink luaStatement		Statement
-  HiLink luaRepeat		Repeat
-  HiLink luaFor			Repeat
-  HiLink luaString		String
-  HiLink luaString2		String
-  HiLink luaNumber		Number
-  HiLink luaOperator		Operator
-  HiLink luaIn			Operator
-  HiLink INSTEADStringControl   Operator
-  HiLink luaConstant		Constant
-  HiLink luaCond		Conditional
-  HiLink luaElse		Conditional
+  HiLink luaSingleQuoteString   Normal
+"------------------------------------------
+  HiLink luaString              String
+  HiLink luaMultiLineString     String
+  HiLink INSTEADTags            String
+"------------------------------------------
+  HiLink luaNumber              Constant
+  HiLink luaConstant            Constant
+"------------------------------------------
   HiLink luaFunction		Function
-  HiLink luaComment		Comment
-  HiLink luaTodo		Todo
+"------------------------------------------
+  HiLink luaStatement           Statement
+  HiLink luaCond                Statement
+  HiLink luaElse                Statement
+  HiLink luaOperator            Statement
+  HiLink luaOperator            Statement
+"------------------------------------------
   HiLink luaTable		Structure
+"------------------------------------------
+  HiLink INSTEADSpecial         SpecialChar
+"------------------------------------------
+  HiLink luaOperator            Operator
+  HiLink INSTEADStringControl   Operator
+"------------------------------------------
   HiLink luaError		Error
   HiLink luaParenError		Error
-  HiLink luaBraceError		Error
-  HiLink luaSpecial		SpecialChar
-  HiLink INSTEADSpecial         SpecialChar
-  HiLink luaFunc		Identifier
-  HiLink luaLabel		Label
+  HiLink luaBraceError          Error
+"------------------------------------------
+  HiLink luaComment             Comment
+
+"  HiLink luaStatement		Statement
+"  HiLink luaRepeat		Repeat
+""  HiLink luaFor			Repeat
+""  HiLink luaString		String
+""  HiLink luaString2		String
+""  HiLink luaNumber		Number
+""  HiLink luaOperator		Operator
+""  HiLink luaIn			Operator
+""  HiLink INSTEADStringControl   Operator
+""  HiLink luaConstant		Constant
+""  HiLink luaCond		Conditional
+""  HiLink luaElse		Conditional
+""  HiLink luaFunction		Function
+""  HiLink luaComment		Comment
+""  HiLink luaTodo		Todo
+""  HiLink luaTable		Structure
+""  HiLink luaError		Error
+""  HiLink luaParenError		Error
+""  HiLink luaBraceError		Error
+""  HiLink luaSpecial		SpecialChar
+""  HiLink INSTEADSpecial         SpecialChar
+""  HiLink luaFunc		Identifier
+""  HiLink luaLabel		Label
 
   delcommand HiLink
 endif
