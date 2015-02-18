@@ -51,7 +51,7 @@ syn region INSTEADTags contained matchgroup=luaComment start="\$\%(Name\|Author\
 " catch errors caused by wrong parenthesis and wrong curly brackets or
 " keywords placed outside their respective blocks
 syn region luaParen      transparent                     start='(' end=')' contains=ALLBUT,luaParenError,luaTodo,luaSpecial,luaIfThen,luaElseifThen,luaElse,luaThenEnd,luaBlock,luaLoopBlock,luaIn,luaStatement
-syn region luaTableBlock transparent matchgroup=luaTable start="{" end="}" contains=ALLBUT,luaBraceError,luaTodo,luaSpecial,luaIfThen,luaElseifThen,luaElse,luaThenEnd,luaBlock,luaLoopBlock,luaIn,luaStatement
+syn region luaTableBlock transparent matchgroup=luaTable start="{" end="}" contains=ALLBUT,luaBraceError,luaTodo,luaSpecial,luaIfThen,luaElseifThen,luaElse,luaThenEnd,luaBlock,luaLoopBlock,luaIn,luaStatement,INSTEADStringControl
 
 syn match  luaParenError ")"
 syn match  luaBraceError "}"
@@ -100,11 +100,11 @@ endif
 
 " Strings
   " INSTEAD text's control words
-syn match INSTEADStringControl "\[cut\]" contained
-syn match INSTEADStringControl "\[upd\]" contained
-syn match INSTEADStringControl "{[a-zA-Zа-яА-Я0-9 |^-_"]*}" contained
+syn match INSTEADStringControl contained "\[cut\]"
+syn match INSTEADStringControl contained "\[upd\]"
+syn match INSTEADStringControl contained "{[a-zA-Zа-яА-Я0-9 |^-_"]*}" 
   " INSTEAD text's special symbols
-syn match INSTEADSpecial "\^" contained
+syn match INSTEADSpecial "\^" 
 
 if lua_version < 5
   syn match  luaSpecial contained "\\[\\abfnrtv\'\"]\|\\[[:digit:]]\{,3}"
