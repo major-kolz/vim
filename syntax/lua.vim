@@ -1,11 +1,14 @@
-" Vim syntax file
-" Language:	Lua 4.0, Lua 5.0, Lua 5.1 and Lua 5.2
-" Maintainer:	Marcus Aurelius Farias <masserahguard-lua 'at' yahoo com>
-" First Author:	Carlos Augusto Teixeira Mendes <cmendes 'at' inf puc-rio br>
-" Last Change:	2012 Aug 12
-" Options:	lua_version = 4 or 5
-"		lua_subversion = 0 (4.0, 5.0) or 1 (5.1) or 2 (5.2)
-"		default 5.2
+"== Vim syntax file (adopted for INSTEAD [instead.syscall.ru] programming) ==
+" Language:      Lua 4.0, Lua 5.0, Lua 5.1 and Lua 5.2
+" Maintainer:    Nikolay Konovalow <major.kolz 'at' gmail com>
+" First Author:  Carlos Augusto Teixeira Mendes <cmendes 'at' inf puc-rio br>
+" Second Author: Marcus Aurelius Farias <masserahguard-lua 'at' yahoo com>
+" Last Change:   2015 Feb 19
+" Options:
+"       lua_version = 4 or 5
+"       lua_subversion = 0 (4.0, 5.0) or 1 (5.1) or 2 (5.2)
+"       default 5.2
+"============================================================================
 
 " For version 5.x: Clear all syntax items
 " For version 6.x: Quit when a syntax file was already loaded
@@ -73,7 +76,7 @@ syn region luaElseifThen contained transparent matchgroup=luaCond start="\<elsei
 syn keyword luaElse contained else
 
 " do ... end
-syn region luaBlock transparent matchgroup=luaStatement start="\<do\>" end="\<end\>"          contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn
+syn region luaBlock transparent matchgroup=luaStatement start="\<do\>" end="\<end\>" contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn
 
 " repeat ... until
 syn region luaLoopBlock transparent matchgroup=luaRepeat start="\<repeat\>" end="\<until\>"   contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn
@@ -85,6 +88,7 @@ syn region luaLoopBlock transparent matchgroup=luaRepeat start="\<while\>" end="
 syn region luaLoopBlock transparent matchgroup=luaRepeat start="\<for\>" end="\<do\>"me=e-2   contains=ALLBUT,luaTodo,luaSpecial,luaIfThen,luaElseifThen,luaElse,luaThenEnd nextgroup=luaBlock skipwhite skipempty
 
 syn keyword luaIn contained in
+syn match luaPunctuation "\%(\.\.\|\.\)"
 
 " other keywords
 syn keyword luaStatement return local break
@@ -360,12 +364,12 @@ if version >= 508 || !exists("did_lua_syntax_inits")
   HiLink luaCond                Statement
   HiLink luaElse                Statement
   HiLink luaOperator            Statement
-  HiLink luaOperator            Statement
 "------------------------------------------
   HiLink luaRepeat		Repeat
   HiLink luaFor			Repeat
 "------------------------------------------
   HiLink luaTable		Structure
+  HiLink luaPunctuation         Structure
 "------------------------------------------
   HiLink INSTEADSpecial         SpecialChar
   HiLink luaSpecial             SpecialChar
@@ -380,30 +384,10 @@ if version >= 508 || !exists("did_lua_syntax_inits")
 "------------------------------------------
   HiLink luaFunc		Identifier
   HiLink luaIn                  Identifier
+"------------------------------------------
+  HiLink luaTODO                Todo
 
-"  HiLink luaStatement		Statement
-"  HiLink luaRepeat		Repeat
-""  HiLink luaFor			Repeat
-""  HiLink luaString		String
-""  HiLink luaString2		String
-""  HiLink luaNumber		Number
-""  HiLink luaOperator		Operator
-""  HiLink luaIn			Operator
-""  HiLink INSTEADStringControl   Operator
-""  HiLink luaConstant		Constant
-""  HiLink luaCond		Conditional
-""  HiLink luaElse		Conditional
-""  HiLink luaFunction		Function
-""  HiLink luaComment		Comment
-""  HiLink luaTodo		Todo
-""  HiLink luaTable		Structure
-""  HiLink luaError		Error
-""  HiLink luaParenError		Error
-""  HiLink luaBraceError		Error
-""  HiLink luaSpecial		SpecialChar
-""  HiLink INSTEADSpecial         SpecialChar
-""  HiLink luaFunc		Identifier
-""  HiLink luaLabel		Label
+"  HiLink luaLabel		Label
 
   " Не использованные: 
   " Delimiter, Special (не вижу чем эти двое отличаются; SpecialChar похоже)
