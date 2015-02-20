@@ -106,7 +106,7 @@ endif
   " INSTEAD text's control words
 syn match INSTEADStringControl contained "\[cut\]"
 syn match INSTEADStringControl contained "\[upd\]"
-syn region INSTEADStringLink contained matchgroup=INSTEADStringControl start="{[a-zA-Zа-я0-9_]*|*" end="}" 
+syn region INSTEADStringLink contained matchgroup=INSTEADStringControl start="{[a-zA-Zа-я0-9_]\+|\=" end="}" 
   " INSTEAD text's special symbols
 syn match INSTEADSpecial "\^" 
 
