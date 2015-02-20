@@ -54,7 +54,7 @@ syn region INSTEADTags contained matchgroup=luaComment start="\$\%(Name\|Author\
 " catch errors caused by wrong parenthesis and wrong curly brackets or
 " keywords placed outside their respective blocks
 syn region luaParen      transparent                     start='(' end=')' contains=ALLBUT,luaParenError,luaTodo,luaSpecial,luaIfThen,luaElseifThen,luaElse,luaThenEnd,luaBlock,luaLoopBlock,luaIn,luaStatement
-syn region luaTableBlock transparent matchgroup=luaTable start="{" end="}" contains=ALLBUT,luaBraceError,luaTodo,luaSpecial,luaIfThen,luaElseifThen,luaElse,luaThenEnd,luaBlock,luaLoopBlock,luaIn,luaStatement,INSTEADStringLink
+syn region luaTableBlock transparent matchgroup=luaTable start="{" end="}" contains=ALLBUT,luaBraceError,luaTodo,luaSpecial,luaIfThen,luaElseifThen,luaElse,luaThenEnd,luaBlock,luaLoopBlock,luaIn,luaStatement,INSTEADStringControl
 
 syn match  luaParenError ")"
 syn match  luaBraceError "}"
@@ -106,8 +106,7 @@ endif
   " INSTEAD text's control words
 syn match INSTEADStringControl contained "\[cut\]"
 syn match INSTEADStringControl contained "\[upd\]"
-syn region INSTEADStringLink contained matchgroup=INSTEADStringControl start="{[a-zA-Zа-я0-9_]\+|\=" end="}" 
-  " INSTEAD text's special symbols
+syn match INSTEADStringControl contained "{[a-zA-Zа-яА-Я0-9_)(]\+|\=[^}.]*}"
 syn match INSTEADSpecial "\^" 
 
 if lua_version < 5
@@ -115,18 +114,18 @@ if lua_version < 5
 elseif lua_version == 5
   if lua_subversion == 0
     syn match  luaSpecial contained #\\[\\abfnrtv'"[\]]\|\\[[:digit:]]\{,3}#
-    syn region luaMultiLineString matchgroup=Normal start=+\[\[+ end=+\]\]+ contains=luaMultiLineString,INSTEADStringControl,INSTEADSpecial,INSTEADStringLink,@Spell
+    syn region luaMultiLineString matchgroup=Normal start=+\[\[+ end=+\]\]+ contains=luaMultiLineString,INSTEADStringControl,INSTEADSpecial,INSTEADStringControl,@Spell
   else
     if lua_subversion == 1
       syn match  luaSpecial contained #\\[\\abfnrtv'"]\|\\[[:digit:]]\{,3}#
     else " Lua 5.2
       syn match  luaSpecial contained #\\[\\abfnrtvz'"]\|\\x[[:xdigit:]]\{2}\|\\[[:digit:]]\{,3}#
     endif
-    syn region luaMultiLineString matchgroup=Normal start="\[\z(=*\)\[" end="\]\z1\]" contains=INSTEADStringControl,INSTEADSpecial,INSTEADStringLink,@Spell
+    syn region luaMultiLineString matchgroup=Normal start="\[\z(=*\)\[" end="\]\z1\]" contains=INSTEADStringControl,INSTEADSpecial,INSTEADStringControl,@Spell
   endif
 endif
-syn region luaString matchgroup=Normal start=+"+ end=+"+ skip=+\\\\\|\\"+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial,INSTEADStringLink,@Spell
-syn region luaSingleQuoteString start=+'+ end=+'+ skip=+\\\\\|\\'+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial,INSTEADStringLink
+syn region luaString matchgroup=Normal start=+"+ end=+"+ skip=+\\\\\|\\"+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial,INSTEADStringControl,@Spell
+syn region luaSingleQuoteString start=+'+ end=+'+ skip=+\\\\\|\\'+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial,INSTEADStringControl
 
 " integer number
 syn match luaNumber "\<\d\+\>"
@@ -353,7 +352,6 @@ if version >= 508 || !exists("did_lua_syntax_inits")
   HiLink luaString              String
   HiLink luaMultiLineString     String
   HiLink INSTEADTags            String
-  HiLink INSTEADStringLink      String
 "------------------------------------------
   HiLink luaFunction		Function
 "------------------------------------------
