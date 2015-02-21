@@ -58,13 +58,62 @@ syn region luaTableBlock transparent matchgroup=luaTable start="{" end="}" conta
 
 syn match  luaParenError ")"
 syn match  luaBraceError "}"
+
+" Strings
+  " INSTEAD text's control words
+syn match INSTEADStringControl contained "\[cut\]"
+syn match INSTEADStringControl contained "\[upd\]"
+syn match INSTEADStringControl contained "{"
+syn match INSTEADStringControl contained ")|"
+syn match INSTEADStringControl contained "{[a-zA-Z0-9_)(]*|\="
+syn match INSTEADStringControl contained "{[а-яА-я"]*}"
+syn match INSTEADStringControl contained "}"
+syn match INSTEADSpecial contained "\^" 
+
+if lua_version < 5
+  syn match  luaSpecial contained "\\[\\abfnrtv\'\"]\|\\[[:digit:]]\{,3}"
+elseif lua_version == 5
+  if lua_subversion == 0
+    syn match  luaSpecial contained #\\[\\abfnrtv'"[\]]\|\\[[:digit:]]\{,3}#
+    syn region luaMultiLineString matchgroup=Normal start=+\[\[+ end=+\]\]+ contains=luaMultiLineString,INSTEADSpecial,INSTEADStringControl,@Spell
+  else
+    if lua_subversion == 1
+      syn match  luaSpecial contained #\\[\\abfnrtv'"]\|\\[[:digit:]]\{,3}#
+    else " Lua 5.2
+      syn match  luaSpecial contained #\\[\\abfnrtvz'"]\|\\x[[:xdigit:]]\{2}\|\\[[:digit:]]\{,3}#
+    endif
+    syn region luaMultiLineString matchgroup=Normal start="\[\z(=*\)\[" end="\]\z1\]" contains=INSTEADSpecial,INSTEADStringControl,@Spell
+  endif
+endif
+syn region luaString matchgroup=Normal start=+"+ end=+"+ skip=+\\\\\|\\"+ contains=luaSpecial,INSTEADSpecial,INSTEADStringControl,@Spell
+syn region luaSingleQuoteString start=+'+ end=+'+ skip=+\\\\\|\\'+ contains=luaSpecial,INSTEADSpecial
+
+" Numbers
+  " Integer
+syn match luaNumber "\<\d\+\>"
+  " Floating point number, with dot, optional exponent
+syn match luaNumber  "\<\d\+\.\d*\%([eE][-+]\=\d\+\)\=\>"
+  " Floating point number, starting with a dot, optional exponent
+syn match luaNumber  "\.\d\+\%([eE][-+]\=\d\+\)\=\>"
+  " Floating point number, without dot, with exponent
+syn match luaNumber  "\<\d\+[eE][-+]\=\d\+\>"
+  " hex numbers
+if lua_version >= 5
+  if lua_subversion == 1
+    syn match luaNumber "\<0[xX]\x\+\>"
+  elseif lua_subversion >= 2
+    syn match luaNumber "\<0[xX][[:xdigit:].]\+\%([pP][-+]\=\d\+\)\=\>"
+  endif
+endif
+
+" Statements
 syn match  luaError "\<\%(end\|else\|elseif\|then\|until\|in\)\>"
 
 " function ... end
-syn region luaFunctionBlock transparent matchgroup=luaFunction start="\<function\>" end="\<end\>" fold contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn
+syn region luaFunctionBlock transparent matchgroup=luaFunction start="\<function\>" end="\<end\>" fold contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn,INSTEADStringControl,
 
 " if ... then
-syn region luaIfThen transparent matchgroup=luaCond start="\<if\>" end="\<then\>"me=e-4           contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaIn nextgroup=luaThenEnd skipwhite skipempty
+syn region luaIfThen transparent matchgroup=luaCond start="\<if\>" end="\<then\>"me=e-4 contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaIn nextgroup=luaThenEnd skipwhite skipempty
 
 " then ... end
 syn region luaThenEnd contained transparent matchgroup=luaCond start="\<then\>" end="\<end\>" contains=ALLBUT,luaTodo,luaSpecial,luaThenEnd,luaIn
@@ -79,13 +128,13 @@ syn keyword luaElse contained else
 syn region luaBlock transparent matchgroup=luaStatement start="\<do\>" end="\<end\>" contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn
 
 " repeat ... until
-syn region luaLoopBlock transparent matchgroup=luaRepeat start="\<repeat\>" end="\<until\>"   contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn
+syn region luaLoopBlock transparent matchgroup=luaRepeat start="\<repeat\>" end="\<until\>" contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn
 
 " while ... do
 syn region luaLoopBlock transparent matchgroup=luaRepeat start="\<while\>" end="\<do\>"me=e-2 contains=ALLBUT,luaTodo,luaSpecial,luaIfThen,luaElseifThen,luaElse,luaThenEnd,luaIn nextgroup=luaBlock skipwhite skipempty
 
 " for ... do and for ... in ... do
-syn region luaLoopBlock transparent matchgroup=luaRepeat start="\<for\>" end="\<do\>"me=e-2   contains=ALLBUT,luaTodo,luaSpecial,luaIfThen,luaElseifThen,luaElse,luaThenEnd nextgroup=luaBlock skipwhite skipempty
+syn region luaLoopBlock transparent matchgroup=luaRepeat start="\<for\>" end="\<do\>"me=e-2 contains=ALLBUT,luaTodo,luaSpecial,luaIfThen,luaElseifThen,luaElse,luaThenEnd nextgroup=luaBlock skipwhite skipempty
 
 syn keyword luaIn contained in
 syn match luaPunctuation "\%(\.\.\|\.\)"
@@ -102,49 +151,10 @@ if lua_version > 4
   syn keyword luaConstant true false
 endif
 
-" Strings
-  " INSTEAD text's control words
-syn match INSTEADStringControl contained "\[cut\]"
-syn match INSTEADStringControl contained "\[upd\]"
-syn match INSTEADStringControl contained "{[a-zA-Zа-яА-Я0-9_)(]\+|\=[^}.]*}"
-syn match INSTEADSpecial "\^" 
-
-if lua_version < 5
-  syn match  luaSpecial contained "\\[\\abfnrtv\'\"]\|\\[[:digit:]]\{,3}"
-elseif lua_version == 5
-  if lua_subversion == 0
-    syn match  luaSpecial contained #\\[\\abfnrtv'"[\]]\|\\[[:digit:]]\{,3}#
-    syn region luaMultiLineString matchgroup=Normal start=+\[\[+ end=+\]\]+ contains=luaMultiLineString,INSTEADStringControl,INSTEADSpecial,INSTEADStringControl,@Spell
-  else
-    if lua_subversion == 1
-      syn match  luaSpecial contained #\\[\\abfnrtv'"]\|\\[[:digit:]]\{,3}#
-    else " Lua 5.2
-      syn match  luaSpecial contained #\\[\\abfnrtvz'"]\|\\x[[:xdigit:]]\{2}\|\\[[:digit:]]\{,3}#
-    endif
-    syn region luaMultiLineString matchgroup=Normal start="\[\z(=*\)\[" end="\]\z1\]" contains=INSTEADStringControl,INSTEADSpecial,INSTEADStringControl,@Spell
-  endif
-endif
-syn region luaString matchgroup=Normal start=+"+ end=+"+ skip=+\\\\\|\\"+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial,INSTEADStringControl,@Spell
-syn region luaSingleQuoteString start=+'+ end=+'+ skip=+\\\\\|\\'+ contains=luaSpecial,INSTEADStringControl,INSTEADSpecial,INSTEADStringControl
-
-" integer number
-syn match luaNumber "\<\d\+\>"
-" floating point number, with dot, optional exponent
-syn match luaNumber  "\<\d\+\.\d*\%([eE][-+]\=\d\+\)\=\>"
-" floating point number, starting with a dot, optional exponent
-syn match luaNumber  "\.\d\+\%([eE][-+]\=\d\+\)\=\>"
-" floating point number, without dot, with exponent
-syn match luaNumber  "\<\d\+[eE][-+]\=\d\+\>"
-
-" hex numbers
-if lua_version >= 5
-  if lua_subversion == 1
-    syn match luaNumber "\<0[xX]\x\+\>"
-  elseif lua_subversion >= 2
-    syn match luaNumber "\<0[xX][[:xdigit:].]\+\%([pP][-+]\=\d\+\)\=\>"
-  endif
-endif
-
+" Function
+  " User's
+"syn match luaFuncCall /\w\+\((\)\@=/ contained
+  " Reserved 
 syn keyword luaFunc assert collectgarbage dofile error next
 syn keyword luaFunc print rawget rawset tonumber tostring type _VERSION
 
@@ -354,6 +364,8 @@ if version >= 508 || !exists("did_lua_syntax_inits")
   HiLink INSTEADTags            String
 "------------------------------------------
   HiLink luaFunction		Function
+"------------------------------------------
+  HiLink luaFuncCall            FunCall
 "------------------------------------------
   HiLink luaNumber              Number
 "------------------------------------------
