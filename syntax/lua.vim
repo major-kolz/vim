@@ -60,15 +60,19 @@ syn match  luaParenError ")"
 syn match  luaBraceError "}"
 
 " Strings
-  " INSTEAD text's control words
+  " INSTEAD text's control words. 
 syn match INSTEADStringControl contained "\[cut\]"
 syn match INSTEADStringControl contained "\[upd\]"
 syn match INSTEADStringControl contained "{"
+  " Links: '{xact|text}', '{xact(arg)|text}', '{xact(' .. arg .. ')|text}'
+syn match INSTEADStringControl contained "{[a-zA-Z0-9_)(]\+[(|]"
+  " Link's )| part
 syn match INSTEADStringControl contained ")|"
-syn match INSTEADStringControl contained "{[a-zA-Z0-9_)(]*|\="
+ " Link's text
 syn match INSTEADStringControl contained "{[а-яА-я"]*}"
 syn match INSTEADStringControl contained "}"
 syn match INSTEADSpecial contained "\^" 
+syn match INSTEADSpecial contained "\""
 
 if lua_version < 5
   syn match  luaSpecial contained "\\[\\abfnrtv\'\"]\|\\[[:digit:]]\{,3}"
@@ -85,7 +89,7 @@ elseif lua_version == 5
     syn region luaMultiLineString matchgroup=Normal start="\[\z(=*\)\[" end="\]\z1\]" contains=INSTEADSpecial,INSTEADStringControl,@Spell
   endif
 endif
-syn region luaString matchgroup=Normal start=+"+ end=+"+ skip=+\\\\\|\\"+ contains=luaSpecial,INSTEADSpecial,INSTEADStringControl,@Spell
+syn region luaString matchgroup=Normal start=+"+ end=+"+ skip=+\\\\\|\\"+ contains=INSTEADSpecial,INSTEADStringControl,@Spell
 syn region luaSingleQuoteString start=+'+ end=+'+ skip=+\\\\\|\\'+ contains=luaSpecial,INSTEADSpecial
 
 " Numbers
@@ -113,28 +117,28 @@ syn match  luaError "\<\%(end\|else\|elseif\|then\|until\|in\)\>"
 syn region luaFunctionBlock transparent matchgroup=luaFunction start="\<function\>" end="\<end\>" fold contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn,INSTEADStringControl,
 
 " if ... then
-syn region luaIfThen transparent matchgroup=luaCond start="\<if\>" end="\<then\>"me=e-4 contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaIn nextgroup=luaThenEnd skipwhite skipempty
+syn region luaIfThen transparent matchgroup=luaCond start="\<if\>" end="\<then\>"me=e-4 contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaIn,INSTEADStringControl nextgroup=luaThenEnd skipwhite skipempty
 
 " then ... end
-syn region luaThenEnd contained transparent matchgroup=luaCond start="\<then\>" end="\<end\>" contains=ALLBUT,luaTodo,luaSpecial,luaThenEnd,luaIn
+syn region luaThenEnd contained transparent matchgroup=luaCond start="\<then\>" end="\<end\>" contains=ALLBUT,luaTodo,luaSpecial,luaThenEnd,luaIn,INSTEADStringControl
 
 " elseif ... then
-syn region luaElseifThen contained transparent matchgroup=luaCond start="\<elseif\>" end="\<then\>" contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn
+syn region luaElseifThen contained transparent matchgroup=luaCond start="\<elseif\>" end="\<then\>" contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn,INSTEADStringControl
 
 " else
 syn keyword luaElse contained else
 
 " do ... end
-syn region luaBlock transparent matchgroup=luaStatement start="\<do\>" end="\<end\>" contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn
+syn region luaBlock transparent matchgroup=luaStatement start="\<do\>" end="\<end\>" contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn,INSTEADStringControl
 
 " repeat ... until
-syn region luaLoopBlock transparent matchgroup=luaRepeat start="\<repeat\>" end="\<until\>" contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn
+syn region luaLoopBlock transparent matchgroup=luaRepeat start="\<repeat\>" end="\<until\>" contains=ALLBUT,luaTodo,luaSpecial,luaElseifThen,luaElse,luaThenEnd,luaIn,INSTEADStringControl
 
 " while ... do
-syn region luaLoopBlock transparent matchgroup=luaRepeat start="\<while\>" end="\<do\>"me=e-2 contains=ALLBUT,luaTodo,luaSpecial,luaIfThen,luaElseifThen,luaElse,luaThenEnd,luaIn nextgroup=luaBlock skipwhite skipempty
+syn region luaLoopBlock transparent matchgroup=luaRepeat start="\<while\>" end="\<do\>"me=e-2 contains=ALLBUT,luaTodo,luaSpecial,luaIfThen,luaElseifThen,luaElse,luaThenEnd,luaIn,INSTEADStringControl nextgroup=luaBlock skipwhite skipempty
 
 " for ... do and for ... in ... do
-syn region luaLoopBlock transparent matchgroup=luaRepeat start="\<for\>" end="\<do\>"me=e-2 contains=ALLBUT,luaTodo,luaSpecial,luaIfThen,luaElseifThen,luaElse,luaThenEnd nextgroup=luaBlock skipwhite skipempty
+syn region luaLoopBlock transparent matchgroup=luaRepeat start="\<for\>" end="\<do\>"me=e-2 contains=ALLBUT,luaTodo,luaSpecial,luaIfThen,luaElseifThen,luaElse,luaThenEnd,INSTEADStringControl nextgroup=luaBlock skipwhite skipempty
 
 syn keyword luaIn contained in
 syn match luaPunctuation "\%(\.\.\|\.\)"
