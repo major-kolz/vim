@@ -1,14 +1,11 @@
-set mapleader = ";"
-
-" Непечатные символы
-set list                    
-set listchars=tab:▸\ ,eol:¬ 
-
-" Форматирование
+" Форматирование как предписывает статут
 set tabstop=4
 set shiftwidth=4
 set expandtab 							"Ставим табы пробелами
 set softtabstop=4 					"4 пробела в табе
+
+" Внешний вид
+set columns=90
 
 " Автодополнение
 autocmd FileType python set omnifunc=pythoncomplete#Complete
@@ -60,10 +57,8 @@ let g:pymode_syntax_all = 1
 let g:pymode_syntax_indent_errors = g:pymode_syntax_all
 let g:pymode_syntax_space_errors = g:pymode_syntax_all
 
-" Don't autofold code
-let g:pymode_folding = 0
+" Autofold a code
+let g:pymode_folding = 1
 
-" Use <leader>l to toggle display of whitespace
-nmap <leader>l :set list!<CR>
 " automatically change window's cwd to file's dir
 set autochdir
