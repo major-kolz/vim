@@ -16,11 +16,11 @@ Plugin 'vim-scripts/DoxyGen-Syntax'
 Plugin 'sjl/gundo.vim'
 Plugin 'klen/python-mode'
 Plugin 'davidhalter/jedi-vim'
-Plugin 'file:///home/major/.vim/excelenter-vim-instead'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'tpope/vim-surround'
 Plugin 'Raimondi/delimitMate'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'major-kolz/vim-instead'
 
 "=== Brief help
 " :PluginList				- list configured plugins
