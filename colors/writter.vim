@@ -14,6 +14,7 @@ let colors_name = "writter"
 hi Normal      guifg=#47b8b8
 hi Statement   guifg=#47b8b8 gui=bold
 hi Repeat      guifg=#47b8b8 gui=bold
+hi FunCall		guifg=#47b8b8 gui=italic
 hi Operator    guifg=#000000 guibg=#ffffcc
 hi SpecialChar guifg=#000000 guibg=#ffffcc
 hi String      guifg=#000000
