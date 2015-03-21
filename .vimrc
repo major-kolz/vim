@@ -21,9 +21,14 @@ Plug 'klen/python-mode', {'for': 'python'}
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'derekwyatt/vim-scala', {'for': 'scala'}
 Plug 'major-kolz/vim-instead', {'for': 'lua'}
+Plug 'wting/rust.vim', {'for': 'rust'}
 call plug#end()
 
 " Brief help
+" :PlugUpdate [name ...] [#threads] 	Install or update plugins
+" :PlugClean 									Remove unused directories (bang version will clean without prompt)
+" :PlugUpgrade									Upgrade vim-plug itself
+" :PlugStatus									Check the status of plugins
 "} Vundle end
 
 "=== Общее
