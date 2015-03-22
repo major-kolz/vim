@@ -6,14 +6,12 @@ filetype off                  " vundle required
 set rtp+=~/.vim/bundle/Vundle.vim/	"setup set the runtime path to include Vundle and initialize
 call vundle#begin()
 
-Plugin 'gmarik/Vundle.vim'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
 Plugin 'honza/vim-snippets'
 Plugin 'vim-scripts/DoxygenToolkit.vim'
 Plugin 'vim-scripts/DoxyGen-Syntax'
-Plugin 'sjl/gundo.vim'
 Plugin 'klen/python-mode'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'derekwyatt/vim-scala'
