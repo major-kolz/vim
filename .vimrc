@@ -1,34 +1,35 @@
 set nocompatible
 syntax on
-filetype off                  " vundle required
 
-"{ Vundle 
-set rtp+=~/.vim/bundle/Vundle.vim/	"setup set the runtime path to include Vundle and initialize
-call vundle#begin()
+"{ Vim-Plug 
+if empty(glob("~/.vim/autoload/plug.vim"))   " Автоматическая установка
+    execute '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+	 " TODO: переименовывать папку bundle (если таковая имеется) в plugged
+endif
 
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
-Plugin 'honza/vim-snippets'
-Plugin 'vim-scripts/DoxygenToolkit.vim'
-Plugin 'vim-scripts/DoxyGen-Syntax'
-Plugin 'klen/python-mode'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'tpope/vim-surround'
-Plugin 'Raimondi/delimitMate'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'major-kolz/vim-instead'
+call plug#begin('~/.vim/plugged')
+Plug 'Raimondi/delimitMate'                  " Автоматическое закрытие скобок и кавычек
+Plug 'tpope/vim-surround'                    " Создание/замена/добавление 'окружающих' элементов
+Plug 'altercation/vim-colors-solarized'      " Цветовая схема http://ethanschoonover.com/solarized
+Plug 'simnalamburt/vim-mundo'                " Древовидная 'отмена' (undo)
+Plug 'garbas/vim-snipmate'
+Plug 'honza/vim-snippets'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'vim-scripts/DoxygenToolkit.vim', { 'for': ['c', 'cpp', 'python'] }
+Plug 'vim-scripts/DoxyGen-Syntax', { 'for': ['c', 'cpp', 'java'] }
+Plug 'klen/python-mode', {'for': 'python'}
+Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'git submodule update --init' }
+Plug 'derekwyatt/vim-scala', {'for': 'scala'}
+Plug 'major-kolz/vim-instead', {'for': 'lua'}
+Plug 'wting/rust.vim', {'for': 'rust'}
+call plug#end()
 
-"=== Brief help
-" :PluginList				- list configured plugins
-" :PluginInstall(!)		- install plugins
-" :PluginUpdate			- update plugins
-" :PluginSearch(!) foo	- search (or refresh cache first) for foo
-" :PluginClean(!)			- confirm (or auto-approve) removal of unused plugins
-
-call vundle#end()
-"} Vundle end
+" Brief help
+" :PlugUpdate [name ...] [#threads] 	Install or update plugins
+" :PlugClean 									Remove unused directories (bang version will clean without prompt)
+" :PlugUpgrade									Upgrade vim-plug itself
+" :PlugStatus									Check the status of plugins
 
 "=== Общее
 filetype plugin indent on
@@ -45,6 +46,10 @@ set lcs=tab:_ ,trail:◦,eol:¬	" Задаем вид непечатных с�
 set lazyredraw						" Не перерисовывать экран без необходимости
 let mapleader=';'					" Лидер - клавиша, с которой начинаются пользовательские комбинации символов
 au FocusLost * :wa				" Авто-сохранение при потере фокуса
+
+"=== For mundo plugin. Enable persistent undo so that undo history persists across vim sessions
+set undofile
+set undodir=~/.vim/undo
 
 "=== Клавиатура
 set keymap=prog-dvorak			" Правленый dvorak-jcuken 
