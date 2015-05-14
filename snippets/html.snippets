@@ -4,11 +4,23 @@ snippet init
 	"http://www.w3.org/TR/html4/loose.dtd">
 	<html>
 		<head>
+			<title>${1}</title>
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		</head>
 
 		<body>
+			${2}
 		</body>
 	</html>
+# Tags
+snippet center
+	<center>
+		${1}
+	</center>
+snippet font
+	<font color="${1}">
+		${2}
+	</font>
 # Non-Breaking Space
 snippet nbs
 	&nbsp;
