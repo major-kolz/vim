@@ -18,7 +18,7 @@ Plug 'tomtom/tlib_vim'
 Plug 'vim-scripts/DoxygenToolkit.vim', { 'for': ['c', 'cpp', 'python'] }
 Plug 'vim-scripts/DoxyGen-Syntax', { 'for': ['c', 'cpp', 'java'] }
 Plug 'klen/python-mode', {'for': 'python'}
-Plug 'davidhalter/jedi-vim', {'for': 'python'}
+Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'git submodule update --init' }
 Plug 'derekwyatt/vim-scala', {'for': 'scala'}
 Plug 'major-kolz/vim-instead', {'for': 'lua'}
 Plug 'wting/rust.vim', {'for': 'rust'}
@@ -29,7 +29,6 @@ call plug#end()
 " :PlugClean 									Remove unused directories (bang version will clean without prompt)
 " :PlugUpgrade									Upgrade vim-plug itself
 " :PlugStatus									Check the status of plugins
-"} Vundle end
 
 "=== Общее
 filetype plugin indent on
