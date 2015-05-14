@@ -3,7 +3,7 @@ syntax on
 
 "{ Vim-Plug 
 if empty(glob("~/.vim/autoload/plug.vim"))   " Автоматическая установка
-    execute '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+	echo "Vim-Plug doesn't install. Do it manually or by unpack.sh script"
 endif
 
 call plug#begin('~/.vim/plugged')
@@ -33,17 +33,17 @@ call plug#end()
 
 "=== Общее
 filetype plugin indent on
-set history=70 					" Sets how many lines of history VIM has to remember
 set autoread						" Set to auto read when a file is changed from the outside
 set showcmd							" Вводимая команда отображается в нижнем правом углу экрана
 set spell spelllang=ru,en		" Правописание
 set fileencodings=utf-8,cp1251 "Распознавание кодировок
 set nobackup                  " Не создавать файлы с резервной копией (filename.txt~)
-set history=50                " Сохранять 50 строк в истории командной строки
+set history=70                " Сохранять 70 строк в истории командной строки
 set visualbell                " Экран мигает на ошибки
 set number							" Нумерация строк
 set lcs=tab:_ ,trail:◦,eol:¬	" Задаем вид непечатных символов: trail - лишние пробелы в конце
 set lazyredraw						" Не перерисовывать экран без необходимости
+set autochdir						" Переходить в директорию открытого файла (для файлового менеджера vim)
 let mapleader=';'					" Лидер - клавиша, с которой начинаются пользовательские комбинации символов
 au FocusLost * :wa				" Авто-сохранение при потере фокуса
 
@@ -97,6 +97,17 @@ endif
 "=== Поиск
 set hlsearch						" Highlight search terms (very useful!)
 set incsearch						" Show search matches while typing
+
+"=== Замена на инкрементную последовательность
+function! Incr()
+  let a = line('.') - line("'<")
+  let c = virtcol("'<")
+  if a > 0
+    execute 'normal! '.c.'|'.a."\<C-a>"
+  endif
+  normal `<
+endfunction
+vnoremap <C-a> :call Incr()<CR>
 
 "=== Запоминаем позицию курсора
 autocmd! bufreadpost * call LastPosition()
