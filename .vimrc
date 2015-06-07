@@ -43,6 +43,7 @@ set number							" Нумерация строк
 set lcs=tab:_ ,trail:◦,eol:¬	" Задаем вид непечатных символов: trail - лишние пробелы в конце
 set lazyredraw						" Не перерисовывать экран без необходимости
 set autochdir						" Переходить в директорию открытого файла (для файлового менеджера vim)
+set smartcase                 " По-умолчанию поиск нечувствителен к регистру, если все слово - в нижнем
 let mapleader=';'					" Лидер - клавиша, с которой начинаются пользовательские комбинации символов
 au FocusLost * :wa				" Авто-сохранение при потере фокуса
 
@@ -65,7 +66,7 @@ imap <C-s> <Esc>:w<CR>a
 nmap <C-q> :q<CR>
 imap <C-q> <Esc>:q<CR>
 "=== Для разворачивания скобок с курсором посередине
-imap <C-Cr> <Cr><Esc>O<Tab>
+imap <C-Cr> <Cr><Esc>O
 "--- Включение\выключение относительной нумерации (удобно при замене на фрагменте текста)
 nmap <leader>n :set rnu<CR>
 nmap <leader>N :set nornu<CR>
@@ -74,6 +75,10 @@ nmap <leader>l :set list<CR>
 nmap <leader>L :set nolist<CR>
 "--- Запуск Gundo
 nmap <leader>g :GundoToggle<CR>
+"--- Открыть терминал в папке с текущим файлом
+nmap <leader>t :call OpenTerm()<CR>
+"--- Замена выделенного текста на инкрементную последовательность
+vnoremap <C-a> :call Incr()<CR>
 
 "=== Форматирование текста
 set smarttab						" Табы в начале строки
@@ -97,6 +102,16 @@ endif
 set hlsearch						" Highlight search terms (very useful!)
 set incsearch						" Show search matches while typing
 
+"=== Открытие терминала для работы с текущим проектом
+function! OpenTerm()
+	let dir = expand('%:p:h')
+	let isSubDir = match(dir, '/src\>') != -1 || match(dir, '/include\>') != -1
+	if isSubDir
+		let dir = fnamemodify(dir, ':h')
+	endif
+	execute 'silent ! gnome-terminal --working-directory='.dir
+endfunction
+
 "=== Замена на инкрементную последовательность
 function! Incr()
   let a = line('.') - line("'<")
@@ -106,7 +121,6 @@ function! Incr()
   endif
   normal `<
 endfunction
-vnoremap <C-a> :call Incr()<CR>
 
 "=== Запоминаем позицию курсора
 autocmd! bufreadpost * call LastPosition()
