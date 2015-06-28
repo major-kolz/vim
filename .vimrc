@@ -91,7 +91,6 @@ set linebreak							" Перенос строк по словам, а не по 
 set showbreak=▸\ \ 					" Помечать перенос вот таким треугольником и двумя пробелами
 au FileType Makefile set noexpandtab
 
-
 "=== Окно
 if has("gui_running")
 	set lines=100
@@ -109,7 +108,7 @@ function! OpenTerm()
 	if isSubDir
 		let dir = fnamemodify(dir, ':h')
 	endif
-	execute 'silent ! gnome-terminal --working-directory='.dir
+	execute 'silent ! gnome-terminal --working-directory="'.dir.'"'
 endfunction
 
 "=== Замена на инкрементную последовательность
