@@ -62,3 +62,4 @@ let g:pymode_folding = 1
 
 " automatically change window's cwd to file's dir
 set autochdir
+nmap <leader>e :! python %<CR>
