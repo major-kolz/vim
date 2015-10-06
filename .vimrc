@@ -16,7 +16,7 @@ Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
 Plug 'honza/vim-snippets'
 Plug 'vim-scripts/DoxygenToolkit.vim', { 'for': ['c', 'cpp', 'python'] }
-Plug 'vim-scripts/DoxyGen-Syntax', { 'for': ['c', 'cpp', 'java'] }
+Plug 'scrooloose/syntastic', { 'for': ['c', 'cpp'] }
 Plug 'klen/python-mode', {'for': 'python'}
 Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'git submodule update --init' }
 Plug 'derekwyatt/vim-scala', {'for': 'scala'}
