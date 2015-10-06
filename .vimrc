@@ -2,7 +2,7 @@ set nocompatible
 syntax on
 
 "{ Vim-Plug 
-if empty(glob("~/.vim/autoload/plug.vim"))   " Автоматическая установка
+if empty(glob("~/.vim/autoload/plug.vim"))
 	echo "Vim-Plug doesn't install. Do it manually or by unpack.sh script"
 endif
 
@@ -138,6 +138,7 @@ autocmd VimEnter * nested if argc() == 0 && filereadable($HOME . "/.vim/Session.
     \ execute "source " . $HOME . "/.vim/Session.vim"
 
 au BufNewFile,BufRead *.doxygen setfiletype doxygen
+au BufNewFile,BufRead *.sbt setfiletype scala
 au BufNewFile,BufRead *.book setfiletype text " text - predefined category
 au Filetype c,cc,cpp,h,hpp runtime! ftplugin/cfamily.vim
 
