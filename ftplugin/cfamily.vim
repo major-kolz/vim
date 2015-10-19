@@ -6,7 +6,7 @@ set cindent
 set tabstop=4
 set shiftwidth=4
 
-" Ищем Makefile где только можно - жалуемся, если ничего не вышло
+" Ищем Makefile где только можно - компилируем открытый файл, если не нашли
 if !filereadable("Makefile")
 	if !filereadable("../Makefile")
 		if !filereadable("../build/Makefile")
