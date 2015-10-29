@@ -22,12 +22,13 @@ if !filereadable("Makefile")
 		set makeprg=make\ -C\ ../
 	endif
 endif
-" Открытие терминала
 
+" Открытие еще и хэдеров по gf
 let &path = &path . "," . expand('%:p:h:h') . "/include"
 
 " Syntastic settings
 let g:syntastic_cpp_compiler = 'g++'
+let g:syntastic_cpp_include_dirs = ["/usr/include/qt4/QtOpenGL/", "/usr/include/qt4/", "/usr/include/qt4/QtCore/", "/usr/include/qt4/QtGui/"]
 " -Og - оптимизация для debug'a
 let g:syntastic_cpp_compiler_options = '-g -Og -pipe -Wall -pedantic -std=gnu++11'
 set statusline+=%#warningmsg#
@@ -37,4 +38,5 @@ set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
+let g:syntastic_cpp_check_header = 1
 let g:syntastic_check_on_wq = 0
