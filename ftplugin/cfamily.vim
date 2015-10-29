@@ -25,16 +25,20 @@ endif
 
 " Открытие еще и хэдеров по gf
 let &path = &path . "," . expand('%:p:h:h') . "/include"
+" Запускать пользовательские скрипты из консоли vim'a
+let $PATH .= ';' . $HOME . '/bin'
 
+let g:syntastic_cpp_checkers = ['gcc', 'cppcheck']
 " Syntastic settings
 let g:syntastic_cpp_compiler = 'g++'
 let g:syntastic_cpp_include_dirs = ["/usr/include/qt4/QtOpenGL/", "/usr/include/qt4/", "/usr/include/qt4/QtCore/", "/usr/include/qt4/QtGui/"]
 " -Og - оптимизация для debug'a
 let g:syntastic_cpp_compiler_options = '-g -Og -pipe -Wall -pedantic -std=gnu++11'
+let g:syntastic_c_include_dirs = ['../../include','../include','include']
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
+let g:syntastic_cpp_check_header = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
