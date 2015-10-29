@@ -31,7 +31,7 @@ let $PATH .= ';' . $HOME . '/bin'
 let g:syntastic_cpp_checkers = ['gcc', 'cppcheck']
 " Syntastic settings
 let g:syntastic_cpp_compiler = 'g++'
-let g:syntastic_cpp_include_dirs = ["/usr/include/qt4/QtOpenGL/", "/usr/include/qt4/", "/usr/include/qt4/QtCore/", "/usr/include/qt4/QtGui/"]
+let g:syntastic_cpp_include_dirs = ["/usr/include/qt4/QtOpenGL/", '../build/', "/usr/include/qt4/", "/usr/include/qt4/QtCore/", "/usr/include/qt4/QtGui/"]
 " -Og - оптимизация для debug'a
 let g:syntastic_cpp_compiler_options = '-g -Og -pipe -Wall -pedantic -std=gnu++11'
 let g:syntastic_c_include_dirs = ['../../include','../include','include']
