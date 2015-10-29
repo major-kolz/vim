@@ -22,6 +22,8 @@ Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'git submodule update --ini
 Plug 'derekwyatt/vim-scala', {'for': 'scala'}
 Plug 'major-kolz/vim-instead', {'for': 'lua'}
 Plug 'wting/rust.vim', {'for': 'rust'}
+Plug 'cespare/vim-toml'                      " TOML - язык разметки, используемый Cargo (пакетный менеджер Rust)
+Plug 'Valloric/MatchTagAlways'               " Highlight the XML/HTML tags 
 call plug#end()
 
 " Brief help
