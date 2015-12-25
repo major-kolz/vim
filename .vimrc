@@ -53,6 +53,17 @@ au FocusLost * :wa				" Авто-сохранение при потере фок
 set undofile
 set undodir=~/.vim/undo
 
+"=== Языковые настройки
+set encoding=utf-8
+if has("gui_running")
+	set lines=101
+	set columns=100
+	set guifont=LiberationMono\ 11
+else
+	set termencoding=utf-8
+endif
+set helplang=ru
+
 "=== Клавиатура
 set keymap=prog-dvorak			" Правленый dvorak-jcuken 
 set iminsert=0                " Раскладка по-умолчанию: английская
@@ -81,6 +92,8 @@ nmap <leader>g :GundoToggle<CR>
 nmap <leader>t :call OpenTerm()<CR>
 "--- Замена выделенного текста на инкрементную последовательность
 vnoremap <C-a> :call Incr()<CR>
+"--- Вставка из системного буфера обмена
+imap <C-v> <Esc>"+pi
 
 "=== Форматирование текста
 set smarttab						" Табы в начале строки
@@ -93,12 +106,6 @@ set linebreak							" Перенос строк по словам, а не по 
 set showbreak=▸\ \ 					" Помечать перенос вот таким треугольником и двумя пробелами
 au FileType Makefile set noexpandtab
 
-"=== Окно
-if has("gui_running")
-	set lines=100
-	set columns=133
-endif
-
 "=== Поиск
 set hlsearch						" Highlight search terms (very useful!)
 set incsearch						" Show search matches while typing
@@ -110,7 +117,7 @@ function! OpenTerm()
 	if isSubDir
 		let dir = fnamemodify(dir, ':h')
 	endif
-	execute 'silent ! gnome-terminal --working-directory="'.dir.'"'
+	execute 'silent ! konsole --workdir="'.dir.'"'
 endfunction
 
 "=== Замена на инкрементную последовательность
