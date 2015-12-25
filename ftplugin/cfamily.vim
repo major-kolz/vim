@@ -1,7 +1,6 @@
 colorscheme slate
 highlight lCursor guifg=NONE guibg=SkyBlue
 
-set expandtab 			" Табы в пробелы
 set cindent
 set tabstop=4
 set shiftwidth=4
