@@ -1,5 +1,6 @@
 set showbreak=
 set iminsert=1
+set nonumber
 
 function! Count()
   execute "tabnew ./temp"

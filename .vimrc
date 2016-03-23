@@ -22,7 +22,7 @@ Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'git submodule update --ini
 Plug 'derekwyatt/vim-scala', {'for': 'scala'}
 Plug 'major-kolz/vim-instead', {'for': 'lua'}
 Plug 'wting/rust.vim', {'for': 'rust'}
-Plug 'cespare/vim-toml'                      " TOML - язык разметки, используемый Cargo (пакетный менеджер Rust)
+Plug 'cespare/vim-toml'                      " TOML - язык разметки, используемый Cargo
 Plug 'Valloric/MatchTagAlways'               " Highlight the XML/HTML tags 
 call plug#end()
 
@@ -39,7 +39,7 @@ set showcmd							" Вводимая команда отображается в 
 set spell spelllang=ru,en		" Правописание
 set fileencodings=utf-8,cp1251 "Распознавание кодировок
 set nobackup                  " Не создавать файлы с резервной копией (filename.txt~)
-set history=70                " Сохранять 70 строк в истории командной строки
+set history=20                " Сохранять 20 строк в истории командной строки
 set visualbell                " Экран мигает на ошибки
 set number							" Нумерация строк
 set lcs=tab:_ ,trail:◦,eol:¬	" Задаем вид непечатных символов: trail - лишние пробелы в конце
@@ -93,7 +93,7 @@ nmap <leader>t :call OpenTerm()<CR>
 "--- Замена выделенного текста на инкрементную последовательность
 vnoremap <C-a> :call Incr()<CR>
 "--- Вставка из системного буфера обмена
-imap <C-v> <Esc>"+pi
+imap <C-v> <Esc>"+p
 
 "=== Форматирование текста
 set smarttab						" Табы в начале строки
