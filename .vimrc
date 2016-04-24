@@ -24,6 +24,7 @@ Plug 'major-kolz/vim-instead', {'for': 'lua'}
 Plug 'wting/rust.vim', {'for': 'rust'}
 Plug 'cespare/vim-toml'                      " TOML - язык разметки, используемый Cargo
 Plug 'Valloric/MatchTagAlways'               " Highlight the XML/HTML tags 
+Plug 'sickill/vim-pasta'							" Умная вставка по контексту места вставки
 call plug#end()
 
 " Brief help
@@ -101,6 +102,7 @@ set ai
 set tabstop=3
 set shiftwidth=3
 set autoindent						" Копирует отступы с текущей строки при добавлении новой 
+set smartindent
 set wrap								" Включаем перенос строк
 set linebreak							" Перенос строк по словам, а не по буквам
 set showbreak=▸\ \ 					" Помечать перенос вот таким треугольником и двумя пробелами
