@@ -25,6 +25,7 @@ Plug 'wting/rust.vim', {'for': 'rust'}
 Plug 'cespare/vim-toml'                      " TOML - язык разметки, используемый Cargo
 Plug 'Valloric/MatchTagAlways'               " Highlight the XML/HTML tags 
 Plug 'sickill/vim-pasta'							" Умная вставка по контексту места вставки
+let g:pasta_disabled_filetypes = ['python', 'coffee', 'yaml', 'text']
 call plug#end()
 
 " Brief help
@@ -48,7 +49,7 @@ set lazyredraw						" Не перерисовывать экран без нео
 set autochdir						" Переходить в директорию открытого файла (для файлового менеджера vim)
 set smartcase                 " По-умолчанию поиск нечувствителен к регистру, если все слово - в нижнем
 let mapleader=';'					" Лидер - клавиша, с которой начинаются пользовательские комбинации символов
-au FocusLost * :wa				" Авто-сохранение при потере фокуса
+au FocusLost * silent! :wa    " Авто-сохранение при потере фокуса
 
 "=== For mundo plugin. Enable persistent undo so that undo history persists across vim sessions
 set undofile
@@ -95,6 +96,8 @@ nmap <leader>t :call OpenTerm()<CR>
 vnoremap <C-a> :call Incr()<CR>
 "--- Вставка из системного буфера обмена
 imap <C-v> <Esc>"+p
+"--- Замена слова под курсором
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 
 "=== Форматирование текста
 set smarttab						" Табы в начале строки
@@ -119,7 +122,7 @@ function! OpenTerm()
 	if isSubDir
 		let dir = fnamemodify(dir, ':h')
 	endif
-	execute 'silent ! konsole --workdir="'.dir.'"'
+	execute 'silent ! konsole --profile=Shell --workdir="'.dir.'"'
 endfunction
 
 "=== Замена на инкрементную последовательность

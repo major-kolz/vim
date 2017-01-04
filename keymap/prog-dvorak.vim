@@ -103,3 +103,4 @@ v	ю	CYRILLIC SMALL LETTER YU
 z	.
 Z	,
 |  /
+¡	—

@@ -15,3 +15,6 @@ function! Count()
 endfunction
 
 nmap <leader>c :call Count()<CR>
+" Чтобы не умная вставка не портила мое ручное форматирование текста
+let g:pasta_paste_before_mapping = g:mapleader . 'P'
+let g:pasta_paste_after_mapping = g:mapleader . 'p'

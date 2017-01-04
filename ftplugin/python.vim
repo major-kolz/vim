@@ -47,7 +47,7 @@ let g:pymode_python = 'python3'
 
 "Linting
 let g:pymode_lint = 1
-let g:pymode_lint_checker = "pep8,pyflakes"
+let g:pymode_lint_checker = "pep8,pyflakes,pylint"
 " Auto check on save
 let g:pymode_lint_write = 1
 
